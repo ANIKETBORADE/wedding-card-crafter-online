@@ -1,9 +1,10 @@
 
-import React from "react";
+import React, { useRef } from "react";
 import { WeddingDetails } from "../types/invitation";
-import { formatWeddingDate, formatWeddingTime } from "../utils/templateUtils";
+import { formatWeddingDate, formatWeddingTime, downloadInvitation } from "../utils/templateUtils";
 import { Button } from "@/components/ui/button";
 import { Download, Share2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
@@ -16,6 +17,8 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
   templateId,
   onEdit,
 }) => {
+  const { toast } = useToast();
+  const invitationRef = useRef<HTMLDivElement>(null);
   const {
     brideFirstName,
     brideLastName,
@@ -33,11 +36,43 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
   const formattedDate = formatWeddingDate(weddingDate);
   const formattedTime = formatWeddingTime(weddingTime);
 
+  const handleDownload = async () => {
+    try {
+      const success = await downloadInvitation("invitation-card", weddingDetails);
+      if (success) {
+        toast({
+          title: "Success!",
+          description: "Your invitation has been downloaded.",
+        });
+      } else {
+        toast({
+          title: "Download failed",
+          description: "There was an issue downloading your invitation.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Download error:", error);
+      toast({
+        title: "Download failed",
+        description: "There was an error creating your invitation image.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleShare = async () => {
+    toast({
+      title: "Share feature",
+      description: "The share feature will be available soon!",
+    });
+  };
+
   const renderInvitationByTemplate = () => {
     switch (templateId) {
       case "elegant-floral":
         return (
-          <div className="bg-white rounded-lg border border-wedding-rose/40 shadow-lg p-8 max-w-lg mx-auto">
+          <div id="invitation-card" className="bg-white rounded-lg border border-wedding-rose/40 shadow-lg p-8 max-w-lg mx-auto">
             <div className="text-center p-8 border border-wedding-gold/30 rounded-md">
               <h3 className="font-great-vibes text-4xl text-wedding-gold mb-4">
                 {brideFirstName} & {groomFirstName}
@@ -77,7 +112,7 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         
       case "minimal-chic":
         return (
-          <div className="bg-white rounded-lg shadow-lg p-8 max-w-lg mx-auto">
+          <div id="invitation-card" className="bg-white rounded-lg shadow-lg p-8 max-w-lg mx-auto">
             <div className="text-center">
               <div className="border-t border-b border-wedding-gold/30 py-6 px-4">
                 <h3 className="font-montserrat text-xl uppercase tracking-widest text-gray-800 mb-4">
@@ -118,7 +153,7 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         
       default:
         return (
-          <div className="bg-white rounded-lg border border-wedding-cream shadow-lg p-8 max-w-lg mx-auto">
+          <div id="invitation-card" className="bg-white rounded-lg border border-wedding-cream shadow-lg p-8 max-w-lg mx-auto">
             <div className="text-center">
               <h3 className="font-great-vibes text-3xl text-wedding-gold mb-4">
                 {brideFirstName} & {groomFirstName}
@@ -171,7 +206,7 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
           </p>
         </div>
 
-        <div className="mb-12">
+        <div className="mb-12" ref={invitationRef}>
           {renderInvitationByTemplate()}
         </div>
 
@@ -184,12 +219,14 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
             Edit Details
           </Button>
           <Button
+            onClick={handleDownload}
             className="bg-wedding-gold hover:bg-wedding-gold/90 text-white"
           >
             <Download className="mr-2 h-4 w-4" />
             Download Invitation
           </Button>
           <Button
+            onClick={handleShare}
             variant="outline"
             className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
           >

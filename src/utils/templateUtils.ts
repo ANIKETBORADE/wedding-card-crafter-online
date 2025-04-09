@@ -1,5 +1,6 @@
 
 import { TemplateItem } from "../types/invitation";
+import html2canvas from "html2canvas";
 
 export const templates: TemplateItem[] = [
   {
@@ -49,4 +50,36 @@ export const formatWeddingTime = (timeString: string): string => {
   const formattedHour = hour % 12 || 12;
   
   return `${formattedHour}:${minutes} ${ampm}`;
+};
+
+export const downloadInvitation = async (elementId: string, weddingDetails: any) => {
+  try {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      throw new Error("Invitation element not found");
+    }
+    
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: "#ffffff",
+    });
+    
+    const image = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    
+    const brideFirstName = weddingDetails.brideFirstName || "";
+    const groomFirstName = weddingDetails.groomFirstName || "";
+    const fileName = `${brideFirstName}_and_${groomFirstName}_wedding_invitation.png`;
+    
+    link.download = fileName;
+    link.href = image;
+    link.click();
+    
+    return true;
+  } catch (error) {
+    console.error("Error downloading invitation:", error);
+    return false;
+  }
 };
