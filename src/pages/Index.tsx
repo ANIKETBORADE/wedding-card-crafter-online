@@ -34,7 +34,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div id="home" className="min-h-screen flex flex-col">
       <Header />
       
       {!showPreview ? (
@@ -92,7 +92,9 @@ const Index = () => {
             onSelectTemplate={handleTemplateSelect} 
           />
           
-          <InvitationForm onSubmit={handleFormSubmit} />
+          <div id="create">
+            <InvitationForm onSubmit={handleFormSubmit} />
+          </div>
         </>
       ) : (
         weddingDetails && (

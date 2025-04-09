@@ -14,6 +14,14 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   selectedTemplate,
   onSelectTemplate,
 }) => {
+  const handleViewAllTemplates = () => {
+    // Scroll to this section to make sure all templates are visible
+    const element = document.getElementById("templates");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div id="templates" className="py-16 bg-wedding-cream/20">
       <div className="container mx-auto px-4">
@@ -65,6 +73,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           <Button 
             variant="outline" 
             className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white"
+            onClick={handleViewAllTemplates}
           >
             View All Templates
           </Button>

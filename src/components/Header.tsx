@@ -7,6 +7,14 @@ import { Menu, X } from "lucide-react";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleScroll = (id: string) => {
+    setIsMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-wedding-cream shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -18,16 +26,29 @@ const Header = () => {
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#" className="text-sm font-medium hover:text-wedding-gold transition-colors">
+          <button 
+            onClick={() => handleScroll("home")} 
+            className="text-sm font-medium hover:text-wedding-gold transition-colors"
+          >
             Home
-          </a>
-          <a href="#templates" className="text-sm font-medium hover:text-wedding-gold transition-colors">
+          </button>
+          <button 
+            onClick={() => handleScroll("templates")} 
+            className="text-sm font-medium hover:text-wedding-gold transition-colors"
+          >
             Templates
-          </a>
-          <a href="#how-it-works" className="text-sm font-medium hover:text-wedding-gold transition-colors">
+          </button>
+          <button 
+            onClick={() => handleScroll("how-it-works")} 
+            className="text-sm font-medium hover:text-wedding-gold transition-colors"
+          >
             How It Works
-          </a>
-          <Button variant="outline" className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white">
+          </button>
+          <Button 
+            onClick={() => handleScroll("create")}
+            variant="outline" 
+            className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white"
+          >
             Get Started
           </Button>
         </nav>
@@ -54,30 +75,27 @@ const Header = () => {
         )}
       >
         <nav className="flex flex-col space-y-6">
-          <a 
-            href="#" 
-            className="text-lg font-medium hover:text-wedding-gold"
-            onClick={() => setIsMenuOpen(false)}
+          <button 
+            onClick={() => handleScroll("home")} 
+            className="text-lg font-medium hover:text-wedding-gold text-left"
           >
             Home
-          </a>
-          <a 
-            href="#templates" 
-            className="text-lg font-medium hover:text-wedding-gold"
-            onClick={() => setIsMenuOpen(false)}
+          </button>
+          <button 
+            onClick={() => handleScroll("templates")} 
+            className="text-lg font-medium hover:text-wedding-gold text-left"
           >
             Templates
-          </a>
-          <a 
-            href="#how-it-works" 
-            className="text-lg font-medium hover:text-wedding-gold"
-            onClick={() => setIsMenuOpen(false)}
+          </button>
+          <button 
+            onClick={() => handleScroll("how-it-works")} 
+            className="text-lg font-medium hover:text-wedding-gold text-left"
           >
             How It Works
-          </a>
+          </button>
           <Button 
             className="bg-wedding-gold hover:bg-wedding-gold/90 text-white w-full mt-4"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => handleScroll("create")}
           >
             Create Your Invitation
           </Button>

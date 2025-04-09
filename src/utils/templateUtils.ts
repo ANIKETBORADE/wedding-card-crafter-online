@@ -7,25 +7,25 @@ export const templates: TemplateItem[] = [
     id: "elegant-floral",
     name: "Elegant Floral",
     description: "Beautiful roses and peonies with gold accents",
-    previewImage: "/placeholder.svg",
+    previewImage: "https://images.unsplash.com/photo-1537089190225-eb4c70558ba8?auto=format&fit=crop&q=80&w=400&h=500",
   },
   {
     id: "minimal-chic",
     name: "Minimal Chic",
     description: "Clean, modern design with stylish typography",
-    previewImage: "/placeholder.svg",
+    previewImage: "https://images.unsplash.com/photo-1509719662284-8e6055be2320?auto=format&fit=crop&q=80&w=400&h=500",
   },
   {
     id: "rustic-charm",
     name: "Rustic Charm",
     description: "Warm wooden textures with delicate wildflowers",
-    previewImage: "/placeholder.svg",
+    previewImage: "https://images.unsplash.com/photo-1623000050730-b936b5a3c0c7?auto=format&fit=crop&q=80&w=400&h=500",
   },
   {
     id: "classic-romance",
     name: "Classic Romance",
     description: "Timeless design with ornate calligraphy",
-    previewImage: "/placeholder.svg",
+    previewImage: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&q=80&w=400&h=500",
   },
 ];
 
