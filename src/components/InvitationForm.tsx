@@ -1,23 +1,97 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { WeddingDetails } from "../types/invitation";
+import { validateFileType, validateFileSize, convertFileToBase64 } from "../utils/templateUtils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Clock, Home, User, Upload } from "lucide-react";
+import { Calendar, Clock, Home, User, Upload, X, Image } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface InvitationFormProps {
   onSubmit: (data: WeddingDetails) => void;
 }
 
 const InvitationForm: React.FC<InvitationFormProps> = ({ onSubmit }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<WeddingDetails>();
+  const { toast } = useToast();
+  const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<WeddingDetails>();
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   
   const onFormSubmit = (data: WeddingDetails) => {
+    // Add the photos to the form data
+    data.photos = uploadedPhotos;
     onSubmit(data);
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    setIsUploading(true);
+    
+    try {
+      const newPhotos: string[] = [];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        // Validate file
+        if (!validateFileType(file)) {
+          toast({
+            title: "Invalid file type",
+            description: "Please upload JPG, PNG, or GIF images only.",
+            variant: "destructive",
+          });
+          continue;
+        }
+        
+        if (!validateFileSize(file, 5)) {
+          toast({
+            title: "File too large",
+            description: "File size should be less than 5MB.",
+            variant: "destructive",
+          });
+          continue;
+        }
+        
+        // Convert to base64
+        const base64 = await convertFileToBase64(file);
+        newPhotos.push(base64);
+      }
+      
+      if (newPhotos.length > 0) {
+        const updatedPhotos = [...uploadedPhotos, ...newPhotos];
+        setUploadedPhotos(updatedPhotos);
+        setValue('photos', updatedPhotos);
+        
+        toast({
+          title: "Photos uploaded",
+          description: `Successfully uploaded ${newPhotos.length} photo(s).`,
+        });
+      }
+    } catch (error) {
+      console.error("Error uploading photos:", error);
+      toast({
+        title: "Upload failed",
+        description: "There was an error uploading your photos.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset the file input
+      event.target.value = '';
+    }
+  };
+
+  const removePhoto = (indexToRemove: number) => {
+    const updatedPhotos = uploadedPhotos.filter((_, index) => index !== indexToRemove);
+    setUploadedPhotos(updatedPhotos);
+    setValue('photos', updatedPhotos);
   };
 
   return (
@@ -198,15 +272,54 @@ const InvitationForm: React.FC<InvitationFormProps> = ({ onSubmit }) => {
                   </div>
                   <p className="text-gray-600 mb-2">Drag and drop your photos here, or click to browse</p>
                   <p className="text-gray-400 text-sm">
-                    Supported formats: JPG, PNG. Max file size: 5MB
+                    Supported formats: JPG, PNG, GIF. Max file size: 5MB
                   </p>
-                  <Button 
-                    type="button"
-                    variant="outline" 
-                    className="mt-4 border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white"
-                  >
-                    Select Photos
-                  </Button>
+                  <Input 
+                    type="file"
+                    id="photoUpload"
+                    className="hidden"
+                    accept="image/jpeg,image/jpg,image/png,image/gif"
+                    onChange={handleFileUpload}
+                    multiple
+                    disabled={isUploading}
+                  />
+                  <label htmlFor="photoUpload">
+                    <Button 
+                      type="button"
+                      variant="outline" 
+                      className="mt-4 border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white"
+                      disabled={isUploading}
+                    >
+                      {isUploading ? "Uploading..." : "Select Photos"}
+                    </Button>
+                  </label>
+                  
+                  {/* Preview uploaded photos */}
+                  {uploadedPhotos.length > 0 && (
+                    <div className="mt-6">
+                      <p className="text-gray-700 font-medium mb-3">Uploaded Photos ({uploadedPhotos.length})</p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        {uploadedPhotos.map((photo, index) => (
+                          <div key={index} className="relative group">
+                            <div className="aspect-square w-full rounded-md overflow-hidden border border-gray-200">
+                              <img 
+                                src={photo} 
+                                alt={`Uploaded photo ${index + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removePhoto(index)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               

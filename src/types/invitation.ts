@@ -11,6 +11,7 @@ export interface WeddingDetails {
   receptionVenue?: string;
   receptionAddress?: string;
   additionalInfo?: string;
+  photos?: string[]; // Add this line for photo URLs
 }
 
 export interface TemplateItem {

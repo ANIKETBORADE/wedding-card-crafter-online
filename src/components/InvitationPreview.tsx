@@ -5,6 +5,7 @@ import { formatWeddingDate, formatWeddingTime, downloadInvitation } from "../uti
 import { Button } from "@/components/ui/button";
 import { Download, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
@@ -31,6 +32,7 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
     receptionVenue,
     receptionAddress,
     additionalInfo,
+    photos = [],
   } = weddingDetails;
 
   const formattedDate = formatWeddingDate(weddingDate);
@@ -74,6 +76,19 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         return (
           <div id="invitation-card" className="bg-white rounded-lg border border-wedding-rose/40 shadow-lg p-8 max-w-lg mx-auto">
             <div className="text-center p-8 border border-wedding-gold/30 rounded-md">
+              {/* Display couple photo if available */}
+              {photos && photos.length > 0 && (
+                <div className="mb-6 flex justify-center">
+                  <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-wedding-gold/20">
+                    <img 
+                      src={photos[0]} 
+                      alt="Couple" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              )}
+              
               <h3 className="font-great-vibes text-4xl text-wedding-gold mb-4">
                 {brideFirstName} & {groomFirstName}
               </h3>
@@ -114,6 +129,19 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         return (
           <div id="invitation-card" className="bg-white rounded-lg shadow-lg p-8 max-w-lg mx-auto">
             <div className="text-center">
+              {/* Photo gallery if available */}
+              {photos && photos.length > 0 && (
+                <div className="mb-6 flex justify-center">
+                  <div className="w-full max-w-xs overflow-hidden">
+                    <img 
+                      src={photos[0]} 
+                      alt="Couple" 
+                      className="w-full h-auto object-cover rounded-sm"
+                    />
+                  </div>
+                </div>
+              )}
+              
               <div className="border-t border-b border-wedding-gold/30 py-6 px-4">
                 <h3 className="font-montserrat text-xl uppercase tracking-widest text-gray-800 mb-4">
                   {brideFirstName} {brideLastName} & {groomFirstName} {groomLastName}
@@ -151,10 +179,76 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
           </div>
         );
         
+      case "rustic-charm":
+        return (
+          <div id="invitation-card" className="bg-white rounded-lg border border-amber-200 shadow-lg p-8 max-w-lg mx-auto" style={{backgroundImage: "url('https://images.unsplash.com/photo-1446869412983-a4a9b3001dd3?q=80&w=2070')", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "soft-light"}}>
+            <div className="text-center bg-white/90 p-8 border border-amber-100 rounded-md">
+              {/* Photo display */}
+              {photos && photos.length > 0 && (
+                <div className="mb-6 mx-auto">
+                  <div className="w-full max-w-xs mx-auto overflow-hidden border-4 border-amber-50 rotate-1">
+                    <img 
+                      src={photos[0]} 
+                      alt="Couple" 
+                      className="w-full h-auto"
+                    />
+                  </div>
+                </div>
+              )}
+              
+              <h3 className="font-great-vibes text-3xl text-amber-700 mb-4">
+                {brideFirstName} & {groomFirstName}
+              </h3>
+              <p className="text-amber-900 mb-2 font-serif">
+                INVITE YOU TO CELEBRATE THEIR MARRIAGE
+              </p>
+              <p className="text-xl font-medium text-amber-800 mb-4">
+                {formattedDate} at {formattedTime}
+              </p>
+              <div className="fancy-separator">
+                <span>✿</span>
+              </div>
+              <p className="text-amber-900">
+                {venue}
+                <br />
+                {venueAddress}
+              </p>
+              
+              {receptionVenue && (
+                <div className="mt-6">
+                  <p className="text-amber-800">Reception to follow</p>
+                  <p className="text-amber-900">
+                    {receptionVenue}
+                    <br />
+                    {receptionAddress}
+                  </p>
+                </div>
+              )}
+              
+              {additionalInfo && (
+                <p className="mt-6 text-amber-800 italic text-sm">{additionalInfo}</p>
+              )}
+            </div>
+          </div>
+        );
+        
       default:
         return (
           <div id="invitation-card" className="bg-white rounded-lg border border-wedding-cream shadow-lg p-8 max-w-lg mx-auto">
             <div className="text-center">
+              {/* Add photo if available */}
+              {photos && photos.length > 0 && (
+                <div className="mb-6 flex justify-center">
+                  <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-wedding-gold/30">
+                    <img 
+                      src={photos[0]} 
+                      alt="Couple" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              )}
+              
               <h3 className="font-great-vibes text-3xl text-wedding-gold mb-4">
                 {brideFirstName} & {groomFirstName}
               </h3>
@@ -209,6 +303,24 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         <div className="mb-12" ref={invitationRef}>
           {renderInvitationByTemplate()}
         </div>
+
+        {/* Additional photos gallery if more than one uploaded */}
+        {photos && photos.length > 1 && (
+          <div className="mb-12">
+            <h3 className="text-xl text-center font-medium mb-4">Your Photos</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+              {photos.map((photo, index) => (
+                <div key={index} className="aspect-square rounded-md overflow-hidden border border-gray-200">
+                  <img 
+                    src={photo} 
+                    alt={`Wedding photo ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button

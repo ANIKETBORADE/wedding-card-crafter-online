@@ -52,6 +52,29 @@ export const formatWeddingTime = (timeString: string): string => {
   return `${formattedHour}:${minutes} ${ampm}`;
 };
 
+export const getFileExtension = (fileName: string): string => {
+  return fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
+};
+
+export const validateFileType = (file: File): boolean => {
+  const acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+  return acceptedTypes.includes(file.type);
+};
+
+export const validateFileSize = (file: File, maxSizeMB = 5): boolean => {
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+  return file.size <= maxSizeBytes;
+};
+
+export const convertFileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};
+
 export const downloadInvitation = async (elementId: string, weddingDetails: any) => {
   try {
     const element = document.getElementById(elementId);
