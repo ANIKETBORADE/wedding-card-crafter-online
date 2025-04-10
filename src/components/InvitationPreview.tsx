@@ -1,22 +1,31 @@
 
 import React, { useRef } from "react";
 import { WeddingDetails } from "../types/invitation";
-import { formatWeddingDate, formatWeddingTime, downloadInvitation } from "../utils/templateUtils";
+import { formatWeddingDate, formatWeddingTime, downloadInvitation, templates } from "../utils/templateUtils";
 import { Button } from "@/components/ui/button";
-import { Download, Share2 } from "lucide-react";
+import { Download, Share2, Edit, Layout } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
   templateId: string;
   onEdit: () => void;
+  onTemplateChange: (templateId: string) => void;
 }
 
 const InvitationPreview: React.FC<InvitationPreviewProps> = ({
   weddingDetails,
   templateId,
   onEdit,
+  onTemplateChange,
 }) => {
   const { toast } = useToast();
   const invitationRef = useRef<HTMLDivElement>(null);
@@ -300,6 +309,36 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
           </p>
         </div>
 
+        <div className="mb-6 flex justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
+              >
+                <Layout className="mr-2 h-4 w-4" />
+                Change Template
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Available Templates</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {templates.map((template) => (
+                <DropdownMenuItem 
+                  key={template.id}
+                  className={`cursor-pointer ${templateId === template.id ? 'bg-wedding-gold/10 font-medium' : ''}`}
+                  onClick={() => onTemplateChange(template.id)}
+                >
+                  {template.name}
+                  {templateId === template.id && (
+                    <Check className="ml-auto h-4 w-4 text-wedding-gold" />
+                  )}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
         <div className="mb-12" ref={invitationRef}>
           {renderInvitationByTemplate()}
         </div>
@@ -328,6 +367,7 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
             variant="outline"
             className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
           >
+            <Edit className="mr-2 h-4 w-4" />
             Edit Details
           </Button>
           <Button

@@ -33,6 +33,12 @@ const Index = () => {
     }, 100);
   };
 
+  const handleTemplateChange = (templateId: string) => {
+    setSelectedTemplate(templateId);
+    // Show a toast notification or scroll to the top to show the changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   // Ensure proper section IDs are handled when hash changes
   useEffect(() => {
     const handleHashChange = () => {
@@ -125,6 +131,7 @@ const Index = () => {
             weddingDetails={weddingDetails}
             templateId={selectedTemplate}
             onEdit={handleEditDetails}
+            onTemplateChange={handleTemplateChange}
           />
         )
       )}
