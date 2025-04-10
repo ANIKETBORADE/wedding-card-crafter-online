@@ -16,6 +16,10 @@ import ClassicRomanceTemplate from "./templates/ClassicRomanceTemplate";
 import GardenWatercolorTemplate from "./templates/GardenWatercolorTemplate";
 import ModernGeometricTemplate from "./templates/ModernGeometricTemplate";
 import VintageLaceTemplate from "./templates/VintageLaceTemplate";
+import BotanicalDreamTemplate from "./templates/BotanicalDreamTemplate";
+import CelestialRomanceTemplate from "./templates/CelestialRomanceTemplate";
+import GeometricLuxuryTemplate from "./templates/GeometricLuxuryTemplate";
+import MinimalistPastelTemplate from "./templates/MinimalistPastelTemplate";
 
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
@@ -81,6 +85,14 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         return <ModernGeometricTemplate weddingDetails={weddingDetails} />;
       case "vintage-lace":
         return <VintageLaceTemplate weddingDetails={weddingDetails} />;
+      case "botanical-dream":
+        return <BotanicalDreamTemplate weddingDetails={weddingDetails} />;
+      case "celestial-romance":
+        return <CelestialRomanceTemplate weddingDetails={weddingDetails} />;
+      case "geometric-luxury":
+        return <GeometricLuxuryTemplate weddingDetails={weddingDetails} />;
+      case "minimalist-pastel":
+        return <MinimalistPastelTemplate weddingDetails={weddingDetails} />;
       default:
         return <DefaultTemplate weddingDetails={weddingDetails} />;
     }

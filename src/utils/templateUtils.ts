@@ -10,6 +10,18 @@ export const templates: TemplateItem[] = [
     previewImage: "https://images.unsplash.com/photo-1537089190225-eb4c70558ba8?auto=format&fit=crop&q=80&w=400&h=500",
   },
   {
+    id: "botanical-dream",
+    name: "Botanical Dream",
+    description: "Lush greenery with elegant typography",
+    previewImage: "https://images.unsplash.com/photo-1470756544705-1848092fbe5f?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "celestial-romance",
+    name: "Celestial Romance",
+    description: "Starry night theme with deep blues",
+    previewImage: "https://images.unsplash.com/photo-1465101162946-4377e57745c3?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
     id: "minimal-chic",
     name: "Minimal Chic",
     description: "Clean, modern design with stylish typography",
@@ -20,6 +32,18 @@ export const templates: TemplateItem[] = [
     name: "Rustic Charm",
     description: "Warm wooden textures with delicate wildflowers",
     previewImage: "https://images.unsplash.com/photo-1623000050730-b936b5a3c0c7?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "geometric-luxury",
+    name: "Geometric Luxury",
+    description: "Sophisticated patterns with gold accents",
+    previewImage: "https://images.unsplash.com/photo-1532983330958-4b32bbe9bb0e?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "minimalist-pastel",
+    name: "Minimalist Pastel",
+    description: "Soft pastel colors with clean layout",
+    previewImage: "https://images.unsplash.com/photo-1550784685-71afe6148a25?auto=format&fit=crop&q=80&w=400&h=500",
   },
   {
     id: "classic-romance",

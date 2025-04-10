@@ -97,3 +97,14 @@
 .fancy-separator > span {
   @apply text-wedding-gold;
 }
+
+/* Add twinkle animation for celestial template */
+@keyframes twinkle {
+  0% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.2; }
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(111, 143, 255, 0.3);
+}
