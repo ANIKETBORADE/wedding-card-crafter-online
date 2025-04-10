@@ -262,7 +262,7 @@ const InvitationForm: React.FC<InvitationFormProps> = ({ onSubmit }) => {
               
               <div className="space-y-6">
                 <h3 className="text-xl font-medium flex items-center">
-                  <Upload className="mr-2 h-5 w-5 text-wedding-gold" />
+                  <Image className="mr-2 h-5 w-5 text-wedding-gold" />
                   Upload Photos
                 </h3>
                 
@@ -277,17 +277,17 @@ const InvitationForm: React.FC<InvitationFormProps> = ({ onSubmit }) => {
                   <Input 
                     type="file"
                     id="photoUpload"
-                    className="hidden"
                     accept="image/jpeg,image/jpg,image/png,image/gif"
                     onChange={handleFileUpload}
                     multiple
                     disabled={isUploading}
+                    className="hidden"
                   />
                   <label htmlFor="photoUpload">
                     <Button 
                       type="button"
                       variant="outline" 
-                      className="mt-4 border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white"
+                      className="mt-4 border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white cursor-pointer"
                       disabled={isUploading}
                     >
                       {isUploading ? "Uploading..." : "Select Photos"}

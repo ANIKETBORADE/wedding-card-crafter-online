@@ -22,6 +22,13 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
     }
   };
 
+  const scrollToCreateForm = () => {
+    const element = document.getElementById("create");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div id="templates" className="py-16 bg-wedding-cream/20">
       <div className="container mx-auto px-4">
@@ -40,12 +47,15 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           {templates.map((template) => (
             <Card 
               key={template.id}
-              className={`overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer ${
+              className={`overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer transform hover:-translate-y-1 ${
                 selectedTemplate === template.id 
-                  ? "ring-2 ring-wedding-gold" 
+                  ? "ring-2 ring-wedding-gold shadow-lg" 
                   : "hover:border-wedding-gold"
               }`}
-              onClick={() => onSelectTemplate(template.id)}
+              onClick={() => {
+                onSelectTemplate(template.id);
+                scrollToCreateForm(); // Scroll to the creation form after selection
+              }}
             >
               <div className="relative aspect-[4/5] bg-gray-100">
                 <img 
@@ -69,13 +79,20 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           ))}
         </div>
         
-        <div className="text-center mt-10">
+        <div className="text-center mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <Button 
             variant="outline" 
             className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white"
             onClick={handleViewAllTemplates}
           >
             View All Templates
+          </Button>
+          
+          <Button 
+            className="bg-wedding-gold text-white hover:bg-wedding-gold/90"
+            onClick={scrollToCreateForm}
+          >
+            Customize Selected Template
           </Button>
         </div>
       </div>
