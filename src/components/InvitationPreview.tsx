@@ -1,18 +1,17 @@
 
 import React, { useRef } from "react";
 import { WeddingDetails } from "../types/invitation";
-import { formatWeddingDate, formatWeddingTime, downloadInvitation, templates } from "../utils/templateUtils";
-import { Button } from "@/components/ui/button";
-import { Download, Share2, Edit, Layout } from "lucide-react";
+import { downloadInvitation } from "../utils/templateUtils";
 import { useToast } from "@/hooks/use-toast";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import TemplateChangeDropdown from "./TemplateChangeDropdown";
+import PhotosGallery from "./PhotosGallery";
+import InvitationActions from "./InvitationActions";
+
+// Import all template components
+import ElegantFloralTemplate from "./templates/ElegantFloralTemplate";
+import MinimalChicTemplate from "./templates/MinimalChicTemplate";
+import RusticCharmTemplate from "./templates/RusticCharmTemplate";
+import DefaultTemplate from "./templates/DefaultTemplate";
 
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
@@ -29,23 +28,6 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
 }) => {
   const { toast } = useToast();
   const invitationRef = useRef<HTMLDivElement>(null);
-  const {
-    brideFirstName,
-    brideLastName,
-    groomFirstName,
-    groomLastName,
-    weddingDate,
-    weddingTime,
-    venue,
-    venueAddress,
-    receptionVenue,
-    receptionAddress,
-    additionalInfo,
-    photos = [],
-  } = weddingDetails;
-
-  const formattedDate = formatWeddingDate(weddingDate);
-  const formattedTime = formatWeddingTime(weddingTime);
 
   const handleDownload = async () => {
     try {
@@ -79,220 +61,16 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
     });
   };
 
-  const renderInvitationByTemplate = () => {
+  const renderTemplate = () => {
     switch (templateId) {
       case "elegant-floral":
-        return (
-          <div id="invitation-card" className="bg-white rounded-lg border border-wedding-rose/40 shadow-lg p-8 max-w-lg mx-auto">
-            <div className="text-center p-8 border border-wedding-gold/30 rounded-md">
-              {/* Display couple photo if available */}
-              {photos && photos.length > 0 && (
-                <div className="mb-6 flex justify-center">
-                  <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-wedding-gold/20">
-                    <img 
-                      src={photos[0]} 
-                      alt="Couple" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              )}
-              
-              <h3 className="font-great-vibes text-4xl text-wedding-gold mb-4">
-                {brideFirstName} & {groomFirstName}
-              </h3>
-              <p className="text-gray-700 mb-2 font-playfair tracking-wider">
-                REQUEST THE PLEASURE OF YOUR COMPANY
-              </p>
-              <p className="text-gray-500 mb-4">
-                {formattedDate} at {formattedTime}
-              </p>
-              <div className="fancy-separator">
-                <span>♥</span>
-              </div>
-              <p className="font-playfair text-gray-700 mb-6">
-                {venue}
-                <br />
-                {venueAddress}
-              </p>
-              
-              {receptionVenue && (
-                <div className="mt-6">
-                  <p className="text-gray-700 font-medium">Reception to follow at</p>
-                  <p className="text-gray-600">
-                    {receptionVenue}
-                    <br />
-                    {receptionAddress}
-                  </p>
-                </div>
-              )}
-              
-              {additionalInfo && (
-                <p className="mt-6 text-gray-600 italic text-sm">{additionalInfo}</p>
-              )}
-            </div>
-          </div>
-        );
-        
+        return <ElegantFloralTemplate weddingDetails={weddingDetails} />;
       case "minimal-chic":
-        return (
-          <div id="invitation-card" className="bg-white rounded-lg shadow-lg p-8 max-w-lg mx-auto">
-            <div className="text-center">
-              {/* Photo gallery if available */}
-              {photos && photos.length > 0 && (
-                <div className="mb-6 flex justify-center">
-                  <div className="w-full max-w-xs overflow-hidden">
-                    <img 
-                      src={photos[0]} 
-                      alt="Couple" 
-                      className="w-full h-auto object-cover rounded-sm"
-                    />
-                  </div>
-                </div>
-              )}
-              
-              <div className="border-t border-b border-wedding-gold/30 py-6 px-4">
-                <h3 className="font-montserrat text-xl uppercase tracking-widest text-gray-800 mb-4">
-                  {brideFirstName} {brideLastName} & {groomFirstName} {groomLastName}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  WE ARE GETTING MARRIED
-                </p>
-                <p className="text-2xl font-playfair text-wedding-gold mb-4">
-                  {formattedDate}
-                </p>
-                <p className="text-gray-600 mb-8">
-                  {formattedTime}
-                </p>
-                <p className="font-medium text-gray-800">
-                  {venue}
-                </p>
-                <p className="text-gray-600">
-                  {venueAddress}
-                </p>
-                
-                {receptionVenue && (
-                  <div className="mt-6">
-                    <p className="text-gray-700 font-medium">Reception</p>
-                    <p className="text-gray-600">
-                      {receptionVenue}, {receptionAddress}
-                    </p>
-                  </div>
-                )}
-              </div>
-              
-              {additionalInfo && (
-                <p className="mt-6 text-gray-600 text-sm">{additionalInfo}</p>
-              )}
-            </div>
-          </div>
-        );
-        
+        return <MinimalChicTemplate weddingDetails={weddingDetails} />;
       case "rustic-charm":
-        return (
-          <div id="invitation-card" className="bg-white rounded-lg border border-amber-200 shadow-lg p-8 max-w-lg mx-auto" style={{backgroundImage: "url('https://images.unsplash.com/photo-1446869412983-a4a9b3001dd3?q=80&w=2070')", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "soft-light"}}>
-            <div className="text-center bg-white/90 p-8 border border-amber-100 rounded-md">
-              {/* Photo display */}
-              {photos && photos.length > 0 && (
-                <div className="mb-6 mx-auto">
-                  <div className="w-full max-w-xs mx-auto overflow-hidden border-4 border-amber-50 rotate-1">
-                    <img 
-                      src={photos[0]} 
-                      alt="Couple" 
-                      className="w-full h-auto"
-                    />
-                  </div>
-                </div>
-              )}
-              
-              <h3 className="font-great-vibes text-3xl text-amber-700 mb-4">
-                {brideFirstName} & {groomFirstName}
-              </h3>
-              <p className="text-amber-900 mb-2 font-serif">
-                INVITE YOU TO CELEBRATE THEIR MARRIAGE
-              </p>
-              <p className="text-xl font-medium text-amber-800 mb-4">
-                {formattedDate} at {formattedTime}
-              </p>
-              <div className="fancy-separator">
-                <span>✿</span>
-              </div>
-              <p className="text-amber-900">
-                {venue}
-                <br />
-                {venueAddress}
-              </p>
-              
-              {receptionVenue && (
-                <div className="mt-6">
-                  <p className="text-amber-800">Reception to follow</p>
-                  <p className="text-amber-900">
-                    {receptionVenue}
-                    <br />
-                    {receptionAddress}
-                  </p>
-                </div>
-              )}
-              
-              {additionalInfo && (
-                <p className="mt-6 text-amber-800 italic text-sm">{additionalInfo}</p>
-              )}
-            </div>
-          </div>
-        );
-        
+        return <RusticCharmTemplate weddingDetails={weddingDetails} />;
       default:
-        return (
-          <div id="invitation-card" className="bg-white rounded-lg border border-wedding-cream shadow-lg p-8 max-w-lg mx-auto">
-            <div className="text-center">
-              {/* Add photo if available */}
-              {photos && photos.length > 0 && (
-                <div className="mb-6 flex justify-center">
-                  <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-wedding-gold/30">
-                    <img 
-                      src={photos[0]} 
-                      alt="Couple" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              )}
-              
-              <h3 className="font-great-vibes text-3xl text-wedding-gold mb-4">
-                {brideFirstName} & {groomFirstName}
-              </h3>
-              <p className="text-gray-700 mb-2">
-                are getting married
-              </p>
-              <p className="text-xl font-medium text-gray-800 mb-4">
-                {formattedDate} at {formattedTime}
-              </p>
-              <div className="fancy-separator">
-                <span>♥</span>
-              </div>
-              <p className="text-gray-700">
-                {venue}
-                <br />
-                {venueAddress}
-              </p>
-              
-              {receptionVenue && (
-                <div className="mt-6">
-                  <p className="text-gray-700">Reception to follow</p>
-                  <p className="text-gray-700">
-                    {receptionVenue}
-                    <br />
-                    {receptionAddress}
-                  </p>
-                </div>
-              )}
-              
-              {additionalInfo && (
-                <p className="mt-6 text-gray-600 italic text-sm">{additionalInfo}</p>
-              )}
-            </div>
-          </div>
-        );
+        return <DefaultTemplate weddingDetails={weddingDetails} />;
     }
   };
 
@@ -310,82 +88,23 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         </div>
 
         <div className="mb-6 flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
-              >
-                <Layout className="mr-2 h-4 w-4" />
-                Change Template
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>Available Templates</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {templates.map((template) => (
-                <DropdownMenuItem 
-                  key={template.id}
-                  className={`cursor-pointer ${templateId === template.id ? 'bg-wedding-gold/10 font-medium' : ''}`}
-                  onClick={() => onTemplateChange(template.id)}
-                >
-                  {template.name}
-                  {templateId === template.id && (
-                    <Check className="ml-auto h-4 w-4 text-wedding-gold" />
-                  )}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <TemplateChangeDropdown 
+            templateId={templateId} 
+            onTemplateChange={onTemplateChange} 
+          />
         </div>
 
         <div className="mb-12" ref={invitationRef}>
-          {renderInvitationByTemplate()}
+          {renderTemplate()}
         </div>
 
-        {/* Additional photos gallery if more than one uploaded */}
-        {photos && photos.length > 1 && (
-          <div className="mb-12">
-            <h3 className="text-xl text-center font-medium mb-4">Your Photos</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              {photos.map((photo, index) => (
-                <div key={index} className="aspect-square rounded-md overflow-hidden border border-gray-200">
-                  <img 
-                    src={photo} 
-                    alt={`Wedding photo ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <PhotosGallery photos={weddingDetails.photos || []} />
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            onClick={onEdit}
-            variant="outline"
-            className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
-          >
-            <Edit className="mr-2 h-4 w-4" />
-            Edit Details
-          </Button>
-          <Button
-            onClick={handleDownload}
-            className="bg-wedding-gold hover:bg-wedding-gold/90 text-white"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Download Invitation
-          </Button>
-          <Button
-            onClick={handleShare}
-            variant="outline"
-            className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
-          >
-            <Share2 className="mr-2 h-4 w-4" />
-            Share Invitation
-          </Button>
-        </div>
+        <InvitationActions 
+          onEdit={onEdit} 
+          onDownload={handleDownload}
+          onShare={handleShare}
+        />
       </div>
     </div>
   );

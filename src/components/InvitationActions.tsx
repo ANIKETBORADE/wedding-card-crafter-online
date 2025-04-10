@@ -1,0 +1,46 @@
+
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Download, Share2, Edit } from "lucide-react";
+
+interface InvitationActionsProps {
+  onEdit: () => void;
+  onDownload: () => void;
+  onShare: () => void;
+}
+
+const InvitationActions: React.FC<InvitationActionsProps> = ({
+  onEdit,
+  onDownload,
+  onShare
+}) => {
+  return (
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <Button
+        onClick={onEdit}
+        variant="outline"
+        className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
+      >
+        <Edit className="mr-2 h-4 w-4" />
+        Edit Details
+      </Button>
+      <Button
+        onClick={onDownload}
+        className="bg-wedding-gold hover:bg-wedding-gold/90 text-white"
+      >
+        <Download className="mr-2 h-4 w-4" />
+        Download Invitation
+      </Button>
+      <Button
+        onClick={onShare}
+        variant="outline"
+        className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold/10"
+      >
+        <Share2 className="mr-2 h-4 w-4" />
+        Share Invitation
+      </Button>
+    </div>
+  );
+};
+
+export default InvitationActions;
