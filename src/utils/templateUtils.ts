@@ -27,6 +27,24 @@ export const templates: TemplateItem[] = [
     description: "Timeless design with ornate calligraphy",
     previewImage: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&q=80&w=400&h=500",
   },
+  {
+    id: "garden-watercolor",
+    name: "Garden Watercolor",
+    description: "Elegant watercolor florals with soft greenery",
+    previewImage: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "modern-geometric",
+    name: "Modern Geometric",
+    description: "Sleek design with bold geometric patterns",
+    previewImage: "https://images.unsplash.com/photo-1532983330958-4b32bbe9bb0e?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "vintage-lace",
+    name: "Vintage Lace",
+    description: "Romantic lace patterns with nostalgic charm",
+    previewImage: "https://images.unsplash.com/photo-1550784685-71afe6148a25?auto=format&fit=crop&q=80&w=400&h=500",
+  },
 ];
 
 export const formatWeddingDate = (dateString: string): string => {
