@@ -1,4 +1,3 @@
-
 import { TemplateItem } from "../types/invitation";
 import html2canvas from "html2canvas";
 
@@ -68,6 +67,66 @@ export const templates: TemplateItem[] = [
     name: "Vintage Lace",
     description: "Romantic lace patterns with nostalgic charm",
     previewImage: "https://images.unsplash.com/photo-1550784685-71afe6148a25?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "royal-elegance",
+    name: "Royal Elegance",
+    description: "Luxurious gold foil with deep burgundy accents",
+    previewImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "bohemian-dreams",
+    name: "Bohemian Dreams",
+    description: "Free-spirited design with earthy tones and textures",
+    previewImage: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "tropical-paradise",
+    name: "Tropical Paradise",
+    description: "Vibrant tropical leaves and exotic flowers",
+    previewImage: "https://images.unsplash.com/photo-1536166008484-c896c5f01c9d?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "art-deco",
+    name: "Art Deco",
+    description: "Glamorous 1920s inspired geometric patterns",
+    previewImage: "https://images.unsplash.com/photo-1517263904808-5dc91e3e7044?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "watercolor-sunset",
+    name: "Watercolor Sunset",
+    description: "Dreamy sunset hues in watercolor wash",
+    previewImage: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "enchanted-garden",
+    name: "Enchanted Garden",
+    description: "Whimsical florals with fairy tale elements",
+    previewImage: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "marble-luxury",
+    name: "Marble Luxury",
+    description: "Sophisticated marble textures with gold details",
+    previewImage: "https://images.unsplash.com/photo-1563293756-517113726ab0?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "lavender-dreams",
+    name: "Lavender Dreams",
+    description: "Serene lavender fields with delicate illustrations",
+    previewImage: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "minimalist-gold",
+    name: "Minimalist Gold",
+    description: "Clean design with elegant gold foil accents",
+    previewImage: "https://images.unsplash.com/photo-1537640538966-79f369143f8f?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "vintage-botanical",
+    name: "Vintage Botanical",
+    description: "Classic botanical illustrations with vintage charm",
+    previewImage: "https://images.unsplash.com/photo-1445510491599-c391e8046a68?auto=format&fit=crop&q=80&w=400&h=500",
   },
 ];
 

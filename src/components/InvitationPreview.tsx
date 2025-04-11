@@ -20,6 +20,16 @@ import BotanicalDreamTemplate from "./templates/BotanicalDreamTemplate";
 import CelestialRomanceTemplate from "./templates/CelestialRomanceTemplate";
 import GeometricLuxuryTemplate from "./templates/GeometricLuxuryTemplate";
 import MinimalistPastelTemplate from "./templates/MinimalistPastelTemplate";
+import RoyalEleganceTemplate from "./templates/RoyalEleganceTemplate";
+import BohemianDreamsTemplate from "./templates/BohemianDreamsTemplate";
+import TropicalParadiseTemplate from "./templates/TropicalParadiseTemplate";
+import ArtDecoTemplate from "./templates/ArtDecoTemplate";
+import WatercolorSunsetTemplate from "./templates/WatercolorSunsetTemplate";
+import EnchantedGardenTemplate from "./templates/EnchantedGardenTemplate";
+import MarbleLuxuryTemplate from "./templates/MarbleLuxuryTemplate";
+import LavenderDreamsTemplate from "./templates/LavenderDreamsTemplate";
+import MinimalistGoldTemplate from "./templates/MinimalistGoldTemplate";
+import VintageBotanicalTemplate from "./templates/VintageBotanicalTemplate";
 
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
@@ -93,6 +103,26 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         return <GeometricLuxuryTemplate weddingDetails={weddingDetails} />;
       case "minimalist-pastel":
         return <MinimalistPastelTemplate weddingDetails={weddingDetails} />;
+      case "royal-elegance":
+        return <RoyalEleganceTemplate weddingDetails={weddingDetails} />;
+      case "bohemian-dreams":
+        return <BohemianDreamsTemplate weddingDetails={weddingDetails} />;
+      case "tropical-paradise":
+        return <TropicalParadiseTemplate weddingDetails={weddingDetails} />;
+      case "art-deco":
+        return <ArtDecoTemplate weddingDetails={weddingDetails} />;
+      case "watercolor-sunset":
+        return <WatercolorSunsetTemplate weddingDetails={weddingDetails} />;
+      case "enchanted-garden":
+        return <EnchantedGardenTemplate weddingDetails={weddingDetails} />;
+      case "marble-luxury":
+        return <MarbleLuxuryTemplate weddingDetails={weddingDetails} />;
+      case "lavender-dreams":
+        return <LavenderDreamsTemplate weddingDetails={weddingDetails} />;
+      case "minimalist-gold":
+        return <MinimalistGoldTemplate weddingDetails={weddingDetails} />;
+      case "vintage-botanical":
+        return <VintageBotanicalTemplate weddingDetails={weddingDetails} />;
       default:
         return <DefaultTemplate weddingDetails={weddingDetails} />;
     }

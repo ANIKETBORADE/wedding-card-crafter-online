@@ -75,7 +75,11 @@ export default {
 			fontFamily: {
 				'playfair': ['"Playfair Display"', 'serif'],
 				'great-vibes': ['"Great Vibes"', 'cursive'],
-				'montserrat': ['Montserrat', 'sans-serif']
+				'montserrat': ['Montserrat', 'sans-serif'],
+				'cinzel': ['Cinzel', 'serif'],
+				'dancing-script': ['"Dancing Script"', 'cursive'],
+				'lora': ['Lora', 'serif'],
+				'cormorant': ['"Cormorant Garamond"', 'serif']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
