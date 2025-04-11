@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { WeddingDetails } from "../../types/invitation";
 import { formatWeddingDate, formatWeddingTime } from "../../utils/templateUtils";
 
@@ -23,8 +23,13 @@ const WatercolorSunsetTemplate: React.FC<TemplateProps> = ({ weddingDetails }) =
     photos = [],
   } = weddingDetails;
 
+  const [imageError, setImageError] = useState(false);
   const formattedDate = formatWeddingDate(weddingDate);
   const formattedTime = formatWeddingTime(weddingTime);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <div 
@@ -45,7 +50,7 @@ const WatercolorSunsetTemplate: React.FC<TemplateProps> = ({ weddingDetails }) =
           backgroundBlendMode: "soft-light"
         }}
       >
-        {photos && photos.length > 0 && (
+        {photos && photos.length > 0 && !imageError && (
           <div className="mb-8 flex justify-center">
             <div 
               className="w-40 h-40 rounded-full overflow-hidden border-4 border-white"
@@ -57,6 +62,7 @@ const WatercolorSunsetTemplate: React.FC<TemplateProps> = ({ weddingDetails }) =
                 src={photos[0]} 
                 alt="Couple" 
                 className="w-full h-full object-cover"
+                onError={handleImageError}
               />
             </div>
           </div>
