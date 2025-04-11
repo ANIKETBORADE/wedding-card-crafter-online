@@ -1,3 +1,4 @@
+
 import { TemplateItem } from "../types/invitation";
 import html2canvas from "html2canvas";
 
@@ -127,6 +128,12 @@ export const templates: TemplateItem[] = [
     name: "Vintage Botanical",
     description: "Classic botanical illustrations with vintage charm",
     previewImage: "https://images.unsplash.com/photo-1445510491599-c391e8046a68?auto=format&fit=crop&q=80&w=400&h=500",
+  },
+  {
+    id: "daisy-elegance",
+    name: "Daisy Elegance",
+    description: "Charming daisy flowers with gold lettering on cream",
+    previewImage: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&q=80&w=400&h=500",
   },
 ];
 

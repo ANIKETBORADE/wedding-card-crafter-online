@@ -30,6 +30,7 @@ import MarbleLuxuryTemplate from "./templates/MarbleLuxuryTemplate";
 import LavenderDreamsTemplate from "./templates/LavenderDreamsTemplate";
 import MinimalistGoldTemplate from "./templates/MinimalistGoldTemplate";
 import VintageBotanicalTemplate from "./templates/VintageBotanicalTemplate";
+import DaisyEleganceTemplate from "./templates/DaisyEleganceTemplate";
 
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
@@ -123,6 +124,8 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
         return <MinimalistGoldTemplate weddingDetails={weddingDetails} />;
       case "vintage-botanical":
         return <VintageBotanicalTemplate weddingDetails={weddingDetails} />;
+      case "daisy-elegance":
+        return <DaisyEleganceTemplate weddingDetails={weddingDetails} />;
       default:
         return <DefaultTemplate weddingDetails={weddingDetails} />;
     }
