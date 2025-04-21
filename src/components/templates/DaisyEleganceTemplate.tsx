@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { WeddingDetails } from "../../types/invitation";
 import { formatWeddingDate, formatWeddingTime } from "../../utils/templateUtils";
 
@@ -24,8 +24,17 @@ const DaisyEleganceTemplate: React.FC<TemplateProps> = ({ weddingDetails }) => {
   } = weddingDetails;
 
   const [imageError, setImageError] = useState(false);
+  const [animated, setAnimated] = useState(false);
   const formattedDate = formatWeddingDate(weddingDate);
   const formattedTime = formatWeddingTime(weddingTime);
+
+  // Trigger animations after component mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimated(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleImageError = () => {
     setImageError(true);
@@ -39,70 +48,87 @@ const DaisyEleganceTemplate: React.FC<TemplateProps> = ({ weddingDetails }) => {
         background: "#F8F6F0",
         boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
         position: "relative",
-        border: "10px solid white"
+        border: "10px solid white",
+        transition: "all 0.5s ease-in-out"
       }}
     >
       {/* Top left daisies */}
       <div 
-        className="absolute top-0 left-0 w-40 h-40"
+        className={`absolute top-0 left-0 w-40 h-40 ${animated ? 'animate-fade-in' : 'opacity-0'}`}
         style={{
           background: "url('/lovable-uploads/676acfa4-4552-4355-9dc8-d428e6987730.png')",
           backgroundSize: "cover",
           backgroundPosition: "top left",
-          opacity: 0.9,
+          opacity: animated ? 0.9 : 0,
           transform: "rotate(0deg)",
           zIndex: 10,
-          pointerEvents: "none"
+          pointerEvents: "none",
+          transition: "opacity 1.5s ease-in-out 0.3s"
         }}
       ></div>
       
       {/* Bottom right daisies */}
       <div 
-        className="absolute bottom-0 right-0 w-40 h-40"
+        className={`absolute bottom-0 right-0 w-40 h-40 ${animated ? 'animate-fade-in' : 'opacity-0'}`}
         style={{
           background: "url('/lovable-uploads/676acfa4-4552-4355-9dc8-d428e6987730.png')",
           backgroundSize: "cover",
           backgroundPosition: "bottom right",
-          opacity: 0.9,
+          opacity: animated ? 0.9 : 0,
           transform: "scaleX(-1)",
           zIndex: 10,
-          pointerEvents: "none"
+          pointerEvents: "none",
+          transition: "opacity 1.5s ease-in-out 0.6s"
         }}
       ></div>
       
       {/* Bottom left daisies */}
       <div 
-        className="absolute bottom-0 left-0 w-28 h-28"
+        className={`absolute bottom-0 left-0 w-28 h-28 ${animated ? 'animate-fade-in' : 'opacity-0'}`}
         style={{
           background: "url('/lovable-uploads/676acfa4-4552-4355-9dc8-d428e6987730.png')",
           backgroundSize: "cover",
           backgroundPosition: "bottom left",
-          opacity: 0.9,
+          opacity: animated ? 0.9 : 0,
           transform: "rotate(270deg) scaleX(-1)",
           zIndex: 10,
-          pointerEvents: "none"
+          pointerEvents: "none",
+          transition: "opacity 1.5s ease-in-out 0.9s"
         }}
       ></div>
       
       <div className="p-10 text-center relative z-5">
-        <p className="font-cormorant text-[#D4AF37] italic mb-2">
+        <p 
+          className={`font-cormorant text-[#D4AF37] italic mb-2 ${animated ? 'animate-fade-in' : 'opacity-0'}`}
+          style={{ transitionDelay: "0.3s" }}
+        >
           together with their families
         </p>
-        <p className="font-cormorant text-[#D4AF37] mb-8">
+        <p 
+          className={`font-cormorant text-[#D4AF37] mb-8 ${animated ? 'animate-fade-in' : 'opacity-0'}`}
+          style={{ transitionDelay: "0.5s" }}
+        >
           you're joyfully invited<br />to attend the
         </p>
         
         <h3 
-          className="font-dancing-script text-5xl text-[#D4AF37] mb-2"
+          className={`font-dancing-script text-5xl text-[#D4AF37] mb-2 ${animated ? 'animate-fade-in' : 'opacity-0'}`}
           style={{
-            textShadow: "1px 1px 2px rgba(212, 175, 55, 0.2)"
+            textShadow: "1px 1px 2px rgba(212, 175, 55, 0.2)",
+            transitionDelay: "0.7s",
+            animation: animated ? "float 4s ease-in-out infinite" : "none"
           }}
         >
           Wedding
         </h3>
-        <p className="font-cormorant text-[#D4AF37] mb-4">of</p>
+        <p 
+          className={`font-cormorant text-[#D4AF37] mb-4 ${animated ? 'animate-fade-in' : 'opacity-0'}`}
+          style={{ transitionDelay: "0.9s" }}
+        >
+          of
+        </p>
         
-        <div className="mb-8">
+        <div className={`mb-8 ${animated ? 'animate-fade-in' : 'opacity-0'}`} style={{ transitionDelay: "1.1s" }}>
           <h2 
             className="font-cinzel text-3xl tracking-wide text-[#D4AF37] mb-2"
             style={{
@@ -115,7 +141,7 @@ const DaisyEleganceTemplate: React.FC<TemplateProps> = ({ weddingDetails }) => {
           </h2>
         </div>
         
-        <div className="mb-6">
+        <div className={`mb-6 ${animated ? 'animate-fade-in' : 'opacity-0'}`} style={{ transitionDelay: "1.3s" }}>
           <p 
             className="text-[#D4AF37] font-cinzel tracking-widest"
             style={{
@@ -130,7 +156,7 @@ const DaisyEleganceTemplate: React.FC<TemplateProps> = ({ weddingDetails }) => {
           </p>
         </div>
         
-        <div className="my-8">
+        <div className={`my-8 ${animated ? 'animate-fade-in' : 'opacity-0'}`} style={{ transitionDelay: "1.5s" }}>
           <p className="font-cormorant text-[#D4AF37] mb-1">
             at {formattedTime} in the evening
           </p>
@@ -144,9 +170,11 @@ const DaisyEleganceTemplate: React.FC<TemplateProps> = ({ weddingDetails }) => {
         
         {receptionVenue && (
           <p 
-            className="mt-8 font-dancing-script text-[#D4AF37] text-xl italic"
+            className={`mt-8 font-dancing-script text-[#D4AF37] text-xl italic ${animated ? 'animate-fade-in' : 'opacity-0'}`}
             style={{
-              transform: "rotate(-3deg)"
+              transform: animated ? "rotate(-3deg)" : "rotate(0deg)",
+              transitionDelay: "1.7s",
+              transition: "all 0.8s ease-in-out"
             }}
           >
             reception to follow ceremony
@@ -154,7 +182,7 @@ const DaisyEleganceTemplate: React.FC<TemplateProps> = ({ weddingDetails }) => {
         )}
         
         {additionalInfo && (
-          <p className="mt-8 font-cormorant italic text-[#D4AF37]/80 text-sm">
+          <p className={`mt-8 font-cormorant italic text-[#D4AF37]/80 text-sm ${animated ? 'animate-fade-in' : 'opacity-0'}`} style={{ transitionDelay: "1.9s" }}>
             {additionalInfo}
           </p>
         )}

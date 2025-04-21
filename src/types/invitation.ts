@@ -1,4 +1,3 @@
-
 export interface WeddingDetails {
   brideFirstName: string;
   brideLastName: string;
@@ -19,6 +18,9 @@ export interface TemplateItem {
   name: string;
   description: string;
   previewImage: string;
+  category?: string; 
+  trending?: boolean;
+  animationStyle?: string;
 }
 
 export interface GuestInfo {
