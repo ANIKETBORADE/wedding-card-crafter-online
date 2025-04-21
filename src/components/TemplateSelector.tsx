@@ -1,11 +1,12 @@
 
 import React, { useState } from "react";
 import { templates } from "../utils/templateUtils";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Grid2x2, Grid3x3, Filter, Search } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
+// Removed { Card, CardContent } and individual icons, moved to subcomponents.
+import TemplateCard from "./TemplateCard";
+import TemplateCategoryTabs from "./TemplateCategoryTabs";
+import TemplateToolbar from "./TemplateToolbar";
+import { TabsContent } from "@/components/ui/tabs";
 
 interface TemplateSelectorProps {
   selectedTemplate: string;
@@ -76,10 +77,8 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   const filteredTemplates = templates.filter(template => {
     const matchesSearch = template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          template.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = activeCategory === "all" || 
-                           (templateCategories[template.id as keyof typeof templateCategories]?.includes(activeCategory));
-    
+    const matchesCategory = activeCategory === "all" ||
+      (templateCategories[template.id as keyof typeof templateCategories]?.includes(activeCategory));
     return matchesSearch && matchesCategory;
   });
 
@@ -110,126 +109,39 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
           </p>
         </div>
 
-        <div className="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="relative w-full md:w-auto md:min-w-[300px]">
-            <Input
-              placeholder="Search templates..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-500">View:</span>
-            <div className="flex border rounded-md">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`rounded-l-md ${gridSize === "small" ? "bg-wedding-gold/10" : ""}`}
-                onClick={() => setGridSize("small")}
-                title="Compact view"
-              >
-                <Grid3x3 className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={gridSize === "medium" ? "bg-wedding-gold/10" : ""}
-                onClick={() => setGridSize("medium")}
-                title="Medium view"
-              >
-                <Grid2x2 className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`rounded-r-md ${gridSize === "large" ? "bg-wedding-gold/10" : ""}`}
-                onClick={() => setGridSize("large")}
-                title="Large view"
-              >
-                <Grid2x2 className="h-4 w-4" />
-              </Button>
-            </div>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2"
-            >
-              <Filter className="h-4 w-4" />
-              <span>Filter</span>
-            </Button>
-          </div>
-        </div>
+        <TemplateToolbar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          gridSize={gridSize}
+          setGridSize={setGridSize}
+        />
 
-        <Tabs defaultValue="all" value={activeCategory} onValueChange={setActiveCategory} className="mb-10">
-          <div className="overflow-x-auto pb-2">
-            <TabsList className="mb-6 bg-transparent h-auto p-0 border-b space-x-4 w-fit min-w-full flex flex-nowrap">
-              {categories.map((category) => (
-                <TabsTrigger
-                  key={category.id}
-                  value={category.id}
-                  className="data-[state=active]:bg-transparent data-[state=active]:text-wedding-gold data-[state=active]:border-b-2 data-[state=active]:border-wedding-gold rounded-none pb-2 whitespace-nowrap"
-                >
-                  {category.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-          
+        <TemplateCategoryTabs
+          categories={categories}
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+        >
           {categories.map((category) => (
             <TabsContent key={category.id} value={category.id} className="mt-0">
               <div className={`grid ${getGridStyles()}`}>
                 {filteredTemplates.map((template, index) => (
-                  <Card 
+                  <TemplateCard
                     key={template.id}
-                    className={`overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer transform hover:-translate-y-1 animate-fade-in ${
-                      selectedTemplate === template.id 
-                        ? "ring-2 ring-wedding-gold shadow-lg" 
-                        : "hover:border-wedding-gold"
-                    }`}
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                    onClick={() => {
-                      onSelectTemplate(template.id);
-                      scrollToCreateForm(); // Scroll to the creation form after selection
+                    template={template}
+                    selected={selectedTemplate === template.id}
+                    onSelect={(id) => {
+                      onSelectTemplate(id);
+                      scrollToCreateForm();
                     }}
-                  >
-                    <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden group">
-                      <img 
-                        src={template.previewImage} 
-                        alt={template.name}
-                        className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-[1.03]"
-                      />
-                      {selectedTemplate === template.id && (
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                          <div className="bg-wedding-gold rounded-full p-2">
-                            <Check className="h-6 w-6 text-white" />
-                          </div>
-                        </div>
-                      )}
-                      <div className="absolute top-2 right-2 z-10">
-                        {template.trending && (
-                          <span className="bg-wedding-gold/90 text-white text-xs py-1 px-2 rounded-full">
-                            Trending
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-medium text-lg mb-1">{template.name}</h3>
-                      <p className="text-gray-500 text-sm">{template.description}</p>
-                    </CardContent>
-                  </Card>
+                    index={index}
+                  />
                 ))}
               </div>
-              
               {filteredTemplates.length === 0 && (
                 <div className="text-center py-12">
                   <p className="text-lg text-gray-500">No templates found matching your criteria</p>
-                  <Button 
-                    variant="link" 
+                  <Button
+                    variant="link"
                     className="text-wedding-gold mt-2"
                     onClick={() => {
                       setSearchQuery("");
@@ -242,18 +154,17 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
               )}
             </TabsContent>
           ))}
-        </Tabs>
-        
+        </TemplateCategoryTabs>
+
         <div className="text-center mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="border-wedding-gold text-wedding-gold hover:bg-wedding-gold hover:text-white"
             onClick={handleViewAllTemplates}
           >
             View All Templates
           </Button>
-          
-          <Button 
+          <Button
             className="bg-wedding-gold text-white hover:bg-wedding-gold/90"
             onClick={scrollToCreateForm}
           >
