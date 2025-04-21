@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
@@ -7,11 +6,13 @@ import InvitationForm from "../components/InvitationForm";
 import InvitationPreview from "../components/InvitationPreview";
 import Footer from "../components/Footer";
 import { WeddingDetails } from "../types/invitation";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("elegant-floral");
   const [weddingDetails, setWeddingDetails] = useState<WeddingDetails | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const navigate = useNavigate();
 
   const handleTemplateSelect = (templateId: string) => {
     setSelectedTemplate(templateId);
@@ -19,8 +20,9 @@ const Index = () => {
 
   const handleFormSubmit = (data: WeddingDetails) => {
     setWeddingDetails(data);
-    setShowPreview(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate("/gallery", {
+      state: { details: data },
+    });
   };
 
   const handleEditDetails = () => {
@@ -35,11 +37,9 @@ const Index = () => {
 
   const handleTemplateChange = (templateId: string) => {
     setSelectedTemplate(templateId);
-    // Show a toast notification or scroll to the top to show the changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Ensure proper section IDs are handled when hash changes
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -53,7 +53,6 @@ const Index = () => {
       }
     };
 
-    // Handle initial hash if present
     if (window.location.hash) {
       handleHashChange();
     }
@@ -115,11 +114,6 @@ const Index = () => {
               </div>
             </div>
           </div>
-          
-          <TemplateSelector 
-            selectedTemplate={selectedTemplate} 
-            onSelectTemplate={handleTemplateSelect} 
-          />
           
           <div id="create">
             <InvitationForm onSubmit={handleFormSubmit} />
