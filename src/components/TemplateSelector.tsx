@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { templates } from "../utils/templateUtils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Grid2x2, Grid3x3, Grid4x4, Filter, Search } from "lucide-react";
+import { Check, Grid2x2, Grid3x3, Filter, Search } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 
@@ -131,7 +131,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
                 onClick={() => setGridSize("small")}
                 title="Compact view"
               >
-                <Grid4x4 className="h-4 w-4" />
+                <Grid3x3 className="h-4 w-4" />
               </Button>
               <Button
                 variant="ghost"
@@ -140,7 +140,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
                 onClick={() => setGridSize("medium")}
                 title="Medium view"
               >
-                <Grid3x3 className="h-4 w-4" />
+                <Grid2x2 className="h-4 w-4" />
               </Button>
               <Button
                 variant="ghost"
