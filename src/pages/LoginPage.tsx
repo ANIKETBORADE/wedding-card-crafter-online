@@ -7,7 +7,11 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useIsMobile } from "../hooks/use-mobile";
 
-const LoginPage: React.FC = () => {
+interface LoginPageProps {
+  onLoginSuccess?: () => void;
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -35,6 +39,12 @@ const LoginPage: React.FC = () => {
     // Simulate API delay
     setTimeout(() => {
       setIsLoading(false);
+      
+      // Call the login success callback if provided
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
+      
       navigate("/");
       toast({
         title: "Welcome!",

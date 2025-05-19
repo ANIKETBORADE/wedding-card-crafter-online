@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from "react";
 import { WeddingDetails } from "../types/invitation";
 import { downloadInvitation, templates } from "../utils/templateUtils";
@@ -36,6 +35,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface InvitationPreviewProps {
   weddingDetails: WeddingDetails;
   templateId: string;
+  templateName?: string;
   onEdit: () => void;
   onTemplateChange: (templateId: string) => void;
 }
@@ -43,6 +43,7 @@ interface InvitationPreviewProps {
 const InvitationPreview: React.FC<InvitationPreviewProps> = ({
   weddingDetails,
   templateId,
+  templateName,
   onEdit,
   onTemplateChange,
 }) => {
@@ -285,6 +286,8 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
           onEdit={onEdit} 
           onDownload={handleDownload}
           onShare={handleShare}
+          templateId={templateId}
+          templateName={templateName}
         />
       </div>
     </div>

@@ -1,3 +1,4 @@
+
 export interface WeddingDetails {
   brideFirstName: string;
   brideLastName: string;
@@ -33,5 +34,5 @@ export interface InvitationPreviewProps {
   templateId: string;
   templateName?: string;
   onEdit: () => void;
-  onTemplateChange: (newTemplateId: string) => void;
+  onTemplateChange: (templateId: string) => void;
 }

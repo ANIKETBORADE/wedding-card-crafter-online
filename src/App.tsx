@@ -23,6 +23,12 @@ const App = () => {
     }
   }, []);
 
+  // Add a callback function to handle login state changes
+  const handleLoginStateChange = () => {
+    const userEmail = localStorage.getItem("userEmail");
+    setIsLoggedIn(!!userEmail);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -30,7 +36,10 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
+            <Route 
+              path="/login" 
+              element={isLoggedIn ? <Navigate to="/" /> : <LoginPage onLoginSuccess={handleLoginStateChange} />} 
+            />
             <Route 
               path="/" 
               element={isLoggedIn ? <Index /> : <Navigate to="/login" />} 
