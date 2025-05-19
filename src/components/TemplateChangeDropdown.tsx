@@ -11,16 +11,51 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 
 interface TemplateChangeDropdownProps {
   templateId: string;
   onTemplateChange: (templateId: string) => void;
+  variant?: "desktop" | "mobile";
 }
 
 const TemplateChangeDropdown: React.FC<TemplateChangeDropdownProps> = ({
   templateId,
-  onTemplateChange
+  onTemplateChange,
+  variant = "desktop"
 }) => {
+  // Get the current template name
+  const currentTemplateName = templates.find(t => t.id === templateId)?.name || "Select Template";
+
+  // For mobile, use a Select component which is more touch-friendly
+  if (variant === "mobile") {
+    return (
+      <Select value={templateId} onValueChange={onTemplateChange}>
+        <SelectTrigger className="w-full bg-white">
+          <SelectValue placeholder={currentTemplateName} />
+        </SelectTrigger>
+        <SelectContent className="max-h-[50vh]">
+          {templates.map((template) => (
+            <SelectItem 
+              key={template.id} 
+              value={template.id}
+              className={templateId === template.id ? 'font-medium' : ''}
+            >
+              {template.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    );
+  }
+  
+  // For desktop, use the dropdown menu
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

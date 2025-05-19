@@ -3,21 +3,26 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Settings, Download, Share2, Smartphone } from "lucide-react";
+import TemplateChangeDropdown from './TemplateChangeDropdown';
 
 interface MobilePreviewControlsProps {
   templateName: string;
+  templateId: string;
   onEdit: () => void;
   onDownload: () => void;
   onShare: () => void;
   onChangeTemplate: () => void;
+  onTemplateChange: (templateId: string) => void;
 }
 
 const MobilePreviewControls: React.FC<MobilePreviewControlsProps> = ({
   templateName,
+  templateId,
   onEdit,
   onDownload,
   onShare,
-  onChangeTemplate
+  onChangeTemplate,
+  onTemplateChange
 }) => {
   return (
     <div className="fixed bottom-4 right-4 z-50 md:hidden">
@@ -67,6 +72,15 @@ const MobilePreviewControls: React.FC<MobilePreviewControlsProps> = ({
               <Share2 className="mb-2 h-5 w-5" />
               <span>Share</span>
             </Button>
+          </div>
+          
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <p className="text-sm font-medium mb-2">Change Template</p>
+            <TemplateChangeDropdown 
+              templateId={templateId}
+              onTemplateChange={onTemplateChange}
+              variant="mobile"
+            />
           </div>
         </SheetContent>
       </Sheet>

@@ -79,6 +79,17 @@
   .mobile-padding {
     padding: 1rem !important;
   }
+  
+  /* Template selection page improvements */
+  .template-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .template-card.selected {
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: #d4af37;
+  }
 }
 
 /* Improved tap target sizes for mobile */
@@ -96,6 +107,23 @@
     padding: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+  
+  /* Bottom sheet styles */
+  .radix-sheet-bottom {
+    border-radius: 16px 16px 0 0 !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+  
+  /* Mobile selection feedback */
+  .gallery-grid {
+    padding-bottom: 80px; /* Space for fixed action button */
+  }
+  
+  .select-dropdown {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Better scrolling on mobile */
@@ -103,5 +131,10 @@
   .smooth-scroll {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
+  }
+  
+  .bottom-sheet-content {
+    max-height: 80vh;
+    overflow-y: auto;
   }
 }

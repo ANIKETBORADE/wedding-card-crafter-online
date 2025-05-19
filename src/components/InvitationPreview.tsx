@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import TemplateChangeDropdown from "./TemplateChangeDropdown";
 import PhotosGallery from "./PhotosGallery";
 import InvitationActions from "./InvitationActions";
+import MobilePreviewControls from "./MobilePreviewControls";
 
 // Import all template components
 import ElegantFloralTemplate from "./templates/ElegantFloralTemplate";
@@ -150,6 +151,15 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
     setPreviewingAll(false);
   };
 
+  const handleChangeTemplate = () => {
+    // Navigate to template gallery with current details
+    const navigate = window.location.href.includes('/preview') ? 
+      () => window.location.href = '/gallery' : 
+      () => console.log('Navigation unavailable');
+    
+    navigate();
+  };
+
   const renderTemplate = () => {
     switch (templateId) {
       case "elegant-floral":
@@ -288,6 +298,17 @@ const InvitationPreview: React.FC<InvitationPreviewProps> = ({
           onShare={handleShare}
           templateId={templateId}
           templateName={templateName}
+        />
+        
+        {/* Mobile Preview Controls - Fixed position for mobile */}
+        <MobilePreviewControls 
+          templateName={templateName || "Template"}
+          templateId={templateId}
+          onEdit={onEdit}
+          onDownload={handleDownload}
+          onShare={handleShare}
+          onChangeTemplate={handleChangeTemplate}
+          onTemplateChange={onTemplateChange}
         />
       </div>
     </div>

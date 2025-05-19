@@ -8,6 +8,7 @@ import TemplateCategoryTabs from "../components/TemplateCategoryTabs";
 import { TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { WeddingDetails, TemplateItem } from "../types/invitation";
+import { toast } from "@/hooks/use-toast";
 
 const categories = [
   { id: "all", name: "All Templates" },
@@ -53,15 +54,35 @@ const TemplateGalleryPage: React.FC = () => {
     t.description.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleSelect = (id: string) => setSelectedTemplate(id);
+  const handleSelect = (id: string) => {
+    setSelectedTemplate(id);
+    
+    // Track template selection
+    const userEmail = localStorage.getItem("userEmail") || "anonymous";
+    const selectedTemplateName = templates.find(t => t.id === id)?.name || "unknown";
+    
+    // Store in localStorage for simple tracking
+    const selections = JSON.parse(localStorage.getItem("templateSelections") || "[]");
+    selections.push({
+      email: userEmail,
+      templateId: id,
+      templateName: selectedTemplateName,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem("templateSelections", JSON.stringify(selections));
 
-  const handleContinue = () => {
-    if (selectedTemplate) {
-      // Go to the preview page with all info
+    // Show toast and navigate after a brief delay
+    toast({
+      title: "Template Selected",
+      description: `Template "${selectedTemplateName}" selected. Proceeding to preview.`,
+    });
+    
+    // Navigate after a brief delay
+    setTimeout(() => {
       navigate("/preview", {
-        state: { details, templateId: selectedTemplate },
+        state: { details, templateId: id },
       });
-    }
+    }, 800);
   };
 
   return (
@@ -94,15 +115,6 @@ const TemplateGalleryPage: React.FC = () => {
           </TabsContent>
         ))}
       </TemplateCategoryTabs>
-      <div className="flex justify-center mt-10">
-        <Button
-          className="bg-wedding-gold px-8 text-white"
-          disabled={!selectedTemplate}
-          onClick={handleContinue}
-        >
-          Continue With Selected Template
-        </Button>
-      </div>
     </main>
   );
 };

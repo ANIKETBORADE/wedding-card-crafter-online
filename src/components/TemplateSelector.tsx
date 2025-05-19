@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TemplateGalleryToolbar from "./TemplateGalleryToolbar";
 import TemplateGalleryGrid from "./TemplateGalleryGrid";
 import TemplateCategoryTabs from "./TemplateCategoryTabs";
@@ -8,6 +9,7 @@ import { WeddingDetails, TemplateItem } from "../types/invitation";
 import { TabsContent } from "@/components/ui/tabs";
 import { useIsMobile } from "../hooks/use-mobile";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 
 const categories = [
   { id: "all", name: "All Templates" },
@@ -37,6 +39,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
   const [search, setSearch] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   // Filter and search templates for the active category
   const filteredTemplates = getCategoryTemplates(activeCategory).filter(
@@ -47,7 +50,6 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
 
   const handleSelect = (id: string) => {
     setSelectedTemplate(id);
-    onSelectTemplate(id);
     
     // Track template selection
     const userEmail = localStorage.getItem("userEmail") || "anonymous";
@@ -65,6 +67,24 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
       timestamp: new Date().toISOString()
     });
     localStorage.setItem("templateSelections", JSON.stringify(selections));
+    
+    // Auto-navigate to preview page after selecting a template
+    toast({
+      title: "Template Selected",
+      description: `Template "${selectedTemplateName}" selected. Proceeding to preview.`,
+    });
+    
+    // Navigate after a brief delay to show the toast
+    setTimeout(() => {
+      onSelectTemplate(id);
+      // Navigate to preview page with the required state
+      navigate("/preview", {
+        state: { 
+          details: weddingDetails, 
+          templateId: id 
+        }
+      });
+    }, 800);
   };
 
   return (
@@ -87,16 +107,6 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
               selectedTemplate={selectedTemplate ?? ""}
               onSelect={handleSelect}
             />
-            {isMobile && selectedTemplate && (
-              <div className="fixed bottom-4 left-0 right-0 flex justify-center z-50">
-                <Button
-                  className="bg-wedding-gold px-8 text-white shadow-lg"
-                  onClick={() => onSelectTemplate(selectedTemplate)}
-                >
-                  Use Selected Template
-                </Button>
-              </div>
-            )}
           </TabsContent>
         ))}
       </TemplateCategoryTabs>
