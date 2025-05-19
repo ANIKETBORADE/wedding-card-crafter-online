@@ -11,7 +11,7 @@ import TemplateGalleryPage from "./pages/TemplateGalleryPage";
 import PreviewPage from "./pages/PreviewPage";
 import LoginPage from "./pages/LoginPage";
 
-const App = () => {
+const App: React.FC = () => {
   const queryClient = new QueryClient();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
