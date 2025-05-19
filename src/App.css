@@ -1,8 +1,15 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
 }
 
 .logo {
@@ -39,4 +46,62 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .elegant-card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .fancy-separator {
+    margin: 1rem 0;
+  }
+  
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+  
+  .mobile-touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  
+  .mobile-padding {
+    padding: 1rem !important;
+  }
+}
+
+/* Improved tap target sizes for mobile */
+@media (max-width: 768px) {
+  button, .button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .template-controls {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: white;
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Better scrolling on mobile */
+@media (max-width: 768px) {
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
 }

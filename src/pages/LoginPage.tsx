@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useIsMobile } from "../hooks/use-mobile";
+import { Loader2 } from "lucide-react";
 
 interface LoginPageProps {
   onLoginSuccess?: () => void;
@@ -75,8 +76,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
-                className="w-full"
+                className="w-full h-12 text-base"
                 required
+                autoFocus
+                autoComplete="email"
+                disabled={isLoading}
               />
               <p className="text-xs text-gray-500">
                 We'll use this to save your designs and send updates
@@ -85,10 +89,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             
             <Button 
               type="submit" 
-              className="w-full bg-wedding-gold hover:bg-wedding-gold/90 text-white"
+              className="w-full h-12 bg-wedding-gold hover:bg-wedding-gold/90 text-white text-base font-medium"
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
             
             <p className="text-xs text-center text-gray-500 mt-6">

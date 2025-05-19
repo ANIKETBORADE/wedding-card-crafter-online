@@ -14,6 +14,7 @@ import LoginPage from "./pages/LoginPage";
 const App = () => {
   const queryClient = new QueryClient();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   
   // Check if user is logged in on component mount
   useEffect(() => {
@@ -21,6 +22,7 @@ const App = () => {
     if (userEmail) {
       setIsLoggedIn(true);
     }
+    setIsInitialized(true);
   }, []);
 
   // Add a callback function to handle login state changes
@@ -29,11 +31,16 @@ const App = () => {
     setIsLoggedIn(!!userEmail);
   };
 
+  // Don't render routes until we've checked if the user is logged in
+  if (!isInitialized) {
+    return null;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Sonner />
+        <Sonner position="top-center" />
         <BrowserRouter>
           <Routes>
             <Route 
