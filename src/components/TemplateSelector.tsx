@@ -6,6 +6,8 @@ import TemplateCategoryTabs from "./TemplateCategoryTabs";
 import { templates } from "../utils/templateUtils";
 import { WeddingDetails, TemplateItem } from "../types/invitation";
 import { TabsContent } from "@/components/ui/tabs";
+import { useIsMobile } from "../hooks/use-mobile";
+import { Button } from "@/components/ui/button";
 
 const categories = [
   { id: "all", name: "All Templates" },
@@ -34,6 +36,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   // Filter and search templates for the active category
   const filteredTemplates = getCategoryTemplates(activeCategory).filter(
@@ -45,6 +48,23 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
   const handleSelect = (id: string) => {
     setSelectedTemplate(id);
     onSelectTemplate(id);
+    
+    // Track template selection
+    const userEmail = localStorage.getItem("userEmail") || "anonymous";
+    const selectedTemplateName = templates.find(t => t.id === id)?.name || "unknown";
+    
+    // In a real app, you would send this to your analytics service
+    console.log(`Template selected: ${selectedTemplateName} by ${userEmail}`);
+    
+    // Store in localStorage for simple tracking
+    const selections = JSON.parse(localStorage.getItem("templateSelections") || "[]");
+    selections.push({
+      email: userEmail,
+      templateId: id,
+      templateName: selectedTemplateName,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem("templateSelections", JSON.stringify(selections));
   };
 
   return (
@@ -67,6 +87,16 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
               selectedTemplate={selectedTemplate ?? ""}
               onSelect={handleSelect}
             />
+            {isMobile && selectedTemplate && (
+              <div className="fixed bottom-4 left-0 right-0 flex justify-center z-50">
+                <Button
+                  className="bg-wedding-gold px-8 text-white shadow-lg"
+                  onClick={() => onSelectTemplate(selectedTemplate)}
+                >
+                  Use Selected Template
+                </Button>
+              </div>
+            )}
           </TabsContent>
         ))}
       </TemplateCategoryTabs>
@@ -75,4 +105,3 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({ weddingDetails, onS
 };
 
 export default TemplateSelector;
-

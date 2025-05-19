@@ -27,3 +27,11 @@ export interface GuestInfo {
   name: string;
   email: string;
 }
+
+export interface InvitationPreviewProps {
+  weddingDetails: WeddingDetails;
+  templateId: string;
+  templateName?: string;
+  onEdit: () => void;
+  onTemplateChange: (newTemplateId: string) => void;
+}
